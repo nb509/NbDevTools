@@ -16,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Diagnostics;
 
 namespace NbDevTools
 {
@@ -29,8 +30,28 @@ namespace NbDevTools
         public MainWindow()
         {
             InitializeComponent();
+            //InputManager.Current.PreProcessInput += Current_PreProcessInput;
             SetupNotifyIcon();
             this.Closing += MainWindow_Closing;
+        }
+
+        private void Current_PreProcessInput(object sender, PreProcessInputEventArgs e)
+        {
+            var args = e.StagingItem.Input as KeyEventArgs;
+
+            if (args == null) return;
+
+            Debug.WriteLine(args.Key);
+
+            if (Keyboard.Modifiers == ModifierKeys.Windows && args.Key == Key.Enter)
+            {
+                // Windows key + Enter key combination detected
+                // Bring your WPF window back into view
+                this.WindowState = WindowState.Normal;
+                this.Activate();
+                this.Topmost = true;
+                this.Topmost = false;
+            }
         }
 
         private void SetupNotifyIcon()
@@ -67,5 +88,7 @@ namespace NbDevTools
                 }
             }
         }
+
+       
     }
 }
