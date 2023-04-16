@@ -8,31 +8,24 @@
              xmlns:prism="http://prismlibrary.com/"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <Grid>
-        <TabControl>
-            <TabItem Header="Send file">
-                <Grid Background="Gray" AllowDrop="True">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="PreviewDragEnter">
-                            <prism:InvokeCommandAction Command="{Binding DragEnterCommand}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="PreviewDragOver">
-                            <prism:InvokeCommandAction Command="{Binding DragOverCommand}" />
-                        </i:EventTrigger>
-                        <i:EventTrigger EventName="Drop">
-                            <prism:InvokeCommandAction Command="{Binding DropCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
 
-                    <!-- Add your drag and droppable area here -->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-                </Grid>
-            </TabItem>
+        <Label Content="LOCAL" Grid.Column="0" Grid.Row="0"/>
+        <Label Content="REMOTE" Grid.Column="2" Grid.Row="0"/>
 
-            <!-- Add other tabs here -->
-
-        </TabControl>
-
+        <TreeView ItemsSource="{Binding LocalFiles}" Grid.Column="0" Grid.Row="1"/>
+        <TreeView ItemsSource="{Binding RemoteFiles}" Grid.Column="1" Grid.Row="1" />
     </Grid>
+    
+    
 </UserControl>
